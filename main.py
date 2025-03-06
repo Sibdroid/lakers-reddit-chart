@@ -2,12 +2,6 @@ import pandas as pd
 from datetime import datetime
 import matplotlib.pyplot as plt
 import numpy as np
-COLORS = {"okc": "#70CBFF",
-          "den": "#F6C479",
-          "mem": "#B4AEC2",
-          "lal": "#6938BC"}
-START_DATE = "Tue, Oct 22"
-END_DATE = "Wed, Mar 5"
 
 
 def format_date(date: str):
@@ -17,6 +11,23 @@ def format_date(date: str):
     else:
         date = date.replace(year = int(datetime.now().year))
     return date
+
+
+def date_difference(date1: str, date2: str):
+    return (format_date(date1)-format_date(date2)).days
+
+
+def round_to_base(x, base = 5):
+    return base * round(x/base)
+
+
+COLORS = {"okc": "#70CBFF",
+          "den": "#F6C479",
+          "mem": "#B4AEC2",
+          "lal": "#6938BC"}
+START_DATE = "Tue, Oct 22"
+END_DATE = "Wed, Mar 5"
+DAYS_PASSED = round_to_base(date_difference(END_DATE, START_DATE))
 
 
 class SeasonData:
@@ -53,7 +64,7 @@ def main() -> None:
     plt.style.use('fivethirtyeight')
     fig, ax = plt.subplots()
     ax.set_ylim([0, 102])
-    ax.set_xlim([0, (format_date(END_DATE) - format_date(START_DATE)).days])
+    ax.set_xlim([0, DAYS_PASSED])
     #ax.set_xticks([0, (format_date(END_DATE) - format_date(START_DATE)).days])
     ax.set_yticks(range(0, 125, 25))
     teams = ["okc", "den", "mem", "lal"]
