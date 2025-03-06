@@ -35,9 +35,8 @@ COLORS = {"okc": "#70CBFF",
           "mem": "#B4AEC2",
           "lal": "#6938BC"}
 START_DATE = "Tue, Oct 22"
-END_DATE = "Sat, Mar 22"
+END_DATE = "Wed, Mar 5"
 DAYS_PASSED = round_to_base(date_difference(END_DATE, START_DATE))
-print(DAYS_PASSED)
 
 
 class SeasonData:
@@ -75,9 +74,9 @@ def main() -> None:
     fig, ax = plt.subplots()
     ax.set_ylim([0, 102])
     ax.set_xlim([0, DAYS_PASSED])
-    ax.set_xticks(np.linspace(0, DAYS_PASSED, 6))
+    ax.set_xticks(np.linspace(0, 135, 6))
     ax.set_xticklabels([date_since_the_date(START_DATE, i) for i in
-                        np.linspace(0, DAYS_PASSED, 6)])
+                        np.linspace(0, 135, 6)])
     ax.set_yticks(range(0, 125, 25))
     teams = ["okc", "den", "mem", "lal"]
     for team in teams:
