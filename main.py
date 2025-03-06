@@ -31,6 +31,10 @@ def round_to_base(x, base = 5):
     return base * round(x/base)
 
 
+def logical_or(cond1, cond2, cond3):
+    return np.logical_or(np.logical_or(cond1, cond2), cond3)
+
+
 COLORS = {"okc": "#70CBFF",
           "den": "#F5B478",
           "mem": "#B4AEC2",
@@ -86,8 +90,9 @@ def main() -> None:
         linewidth = 3.5 if team == "lal" else 2
         data = SeasonData(f"data-{team}.xlsx")
         if team == "lal":
-            do_markers = np.where(np.logical_or(data.y == min(data.y),
-                                                data.x == max(data.x)),
+            do_markers = np.where(logical_or(data.y == min(data.y),
+                                             data.x == max(data.x),
+                                             data.x == 111),
                                   True, False)
             ax.plot(data.x, data.y, color = color, linewidth = linewidth,
                     marker="o", fillstyle="full", mfc="#F0F0F0", mew=2,
