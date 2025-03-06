@@ -1,6 +1,7 @@
 import urllib.request
 from bs4 import BeautifulSoup
 import pandas as pd
+import time
 
 
 class SeasonLog:
@@ -44,6 +45,14 @@ class SeasonLog:
         self.df.to_excel(path)
 
 
-log = SeasonLog("https://www.espn.com/nba/team/schedule/_/name/lal/season/2025")
-log.save("data.xlsx")
+def main() -> None:
+    for team in ["okc", "lal", "den", "mem"]:
+        log = SeasonLog(f"https://www.espn.com/nba/team/schedule/_/name/{team}/season/2025")
+        log.save(f"data-{team}.xlsx")
+        print(f"{team} done")
+        time.sleep(20)
+
+
+if __name__ == "__main__":
+    main()
 
