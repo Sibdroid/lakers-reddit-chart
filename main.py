@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import datetime
 from datetime import timedelta
 import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
 import numpy as np
 
 
@@ -31,7 +32,7 @@ def round_to_base(x, base = 5):
 
 
 COLORS = {"okc": "#70CBFF",
-          "den": "#F6C479",
+          "den": "#F5B478",
           "mem": "#B4AEC2",
           "lal": "#6938BC"}
 START_DATE = "Tue, Oct 22"
@@ -78,12 +79,17 @@ def main() -> None:
     ax.set_xticklabels([date_since_the_date(START_DATE, i) for i in
                         np.linspace(0, 135, 6)])
     ax.set_yticks(range(0, 125, 25))
+    ax.set_yticklabels(["", "25", "50", "75", "100"])
     teams = ["okc", "den", "mem", "lal"]
     for team in teams:
         color = COLORS[team]
-        linewidth = 3 if team == "lal" else 2
+        linewidth = 3 if team == "lal" else 1.5
         data = SeasonData(f"data-{team}.xlsx")
         ax.plot(data.x, data.y, color = color, linewidth = linewidth)
+    #ax.add_patch(Rectangle((0, 0), 19, 102, fill=True,
+    #                       color='#CCCCCC',
+    #                       alpha=0.95, zorder=100,
+    #                       figure=fig))
     plt.show()
 
 
