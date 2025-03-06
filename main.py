@@ -1,5 +1,6 @@
 import pandas as pd
 from datetime import datetime
+from datetime import timedelta
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -17,6 +18,14 @@ def date_difference(date1: str, date2: str):
     return (format_date(date1)-format_date(date2)).days
 
 
+def date_since_the_date(date: str,
+                        days: int,
+                        date_format: str = "%d/%m"):
+    date = format_date(date)
+    date += timedelta(days=days)
+    return date.strftime(date_format)
+
+
 def round_to_base(x, base = 5):
     return base * round(x/base)
 
@@ -26,8 +35,9 @@ COLORS = {"okc": "#70CBFF",
           "mem": "#B4AEC2",
           "lal": "#6938BC"}
 START_DATE = "Tue, Oct 22"
-END_DATE = "Wed, Mar 5"
+END_DATE = "Sat, Mar 22"
 DAYS_PASSED = round_to_base(date_difference(END_DATE, START_DATE))
+print(DAYS_PASSED)
 
 
 class SeasonData:
@@ -65,7 +75,9 @@ def main() -> None:
     fig, ax = plt.subplots()
     ax.set_ylim([0, 102])
     ax.set_xlim([0, DAYS_PASSED])
-    #ax.set_xticks([0, (format_date(END_DATE) - format_date(START_DATE)).days])
+    ax.set_xticks(np.linspace(0, DAYS_PASSED, 6))
+    ax.set_xticklabels([date_since_the_date(START_DATE, i) for i in
+                        np.linspace(0, DAYS_PASSED, 6)])
     ax.set_yticks(range(0, 125, 25))
     teams = ["okc", "den", "mem", "lal"]
     for team in teams:
