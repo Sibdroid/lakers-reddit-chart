@@ -73,7 +73,7 @@ class SeasonData:
 def main() -> None:
     plt.style.use('fivethirtyeight')
     fig, ax = plt.subplots()
-    ax.set_ylim([0, 102])
+    ax.set_ylim([0, 101])
     ax.set_xlim([0, DAYS_PASSED])
     ax.set_xticks(np.linspace(0, 135, 6))
     ax.set_xticklabels([date_since_the_date(START_DATE, i) for i in
@@ -83,14 +83,22 @@ def main() -> None:
     teams = ["okc", "den", "mem", "lal"]
     for team in teams:
         color = COLORS[team]
-        linewidth = 3 if team == "lal" else 1.5
+        linewidth = 3.5 if team == "lal" else 2
         data = SeasonData(f"data-{team}.xlsx")
-        ax.plot(data.x, data.y, color = color, linewidth = linewidth)
+        if team == "lal":
+            do_markers = np.where(np.logical_or(data.y == min(data.y),
+                                                data.x == max(data.x)),
+                                  True, False)
+            ax.plot(data.x, data.y, color = color, linewidth = linewidth,
+                    marker="o", fillstyle="full", mfc="#F0F0F0", mew=2,
+                    markevery = do_markers)
+        else:
+            ax.plot(data.x, data.y, color = color, linewidth = linewidth)
     #ax.add_patch(Rectangle((0, 0), 19, 102, fill=True,
     #                       color='#CCCCCC',
     #                       alpha=0.95, zorder=100,
     #                       figure=fig))
-    plt.show()
+    plt.savefig("chart.png", dpi = 600)
 
 
 if __name__ == "__main__":
